@@ -27,6 +27,7 @@ cntSoggy = rowSums(sc$toc > 0)
 cntStrained = rowSums(out > 0)
 mostZeroed = tail(sort((cntSoggy - cntStrained)/cntSoggy), n = 10)
 tail(sort(rowSums(sc$toc > out)/rowSums(sc$toc > 0)), n = 20)
+message("writting the mtx files to soupX-contamination-fraction-0.10 directory ...")
 DropletUtils:::write10xCounts("./soupX-contamination-fraction-0.10", out)
 rm(list=ls())
 
