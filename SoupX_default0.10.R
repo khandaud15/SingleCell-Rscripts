@@ -10,8 +10,6 @@ arguments <- parse_args(OptionParser(option_list = options))
 setwd(arguments$p)
 cat(arguments$p)
 
-dir.create("SoupX")
-
 message("Loading the required packages ....")
 suppressPackageStartupMessages(library(SoupX))
 suppressPackageStartupMessages(library(Matrix))
