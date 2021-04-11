@@ -4,11 +4,12 @@
 suppressPackageStartupMessages(library(optparse))
 require(optparse)
 options <- list(
-make_option(c("-p", "--path"), action = "store", default = getwd(), type = "character", help=" path for  outs folder from the cellranger .")
+make_option(c("-p", "--path"), action = "store", default = getwd(), type = "character", help=" path for  outs folder from the cellranger ."),
+make_option(c("-c", "--fraction"), type="integer", default=0.10, help=" contamination fraction percentage, default is 0.10", metavar="number")
 )
 arguments <- parse_args(OptionParser(option_list = options))
 setwd(arguments$p)
-cat(arguments$p)
+cat(arguments$p, arguments$c)
 
 message("Loading the required packages ....")
 suppressPackageStartupMessages(library(SoupX))
@@ -18,7 +19,7 @@ suppressPackageStartupMessages(library(matrixStats))
 
 message("Creating the soup Channel ...")
 sc = load10X(arguments$p, keepDroplets = TRUE)
-sc = setContaminationFraction(sc, 0.10)  ### High contamination fraction because of Nulcei Isolation
+sc = setContaminationFraction(sc, arguments$c)
 head(sc$soupProfile[order(sc$soupProfile$est, decreasing = TRUE), ], n = 20)
 out = adjustCounts(sc,roundToInt=TRUE)
 cntSoggy = rowSums(sc$toc > 0)
