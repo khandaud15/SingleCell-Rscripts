@@ -22,7 +22,7 @@ suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(tibble))
 suppressPackageStartupMessages(library(Seurat))
 suppressPackageStartupMessages(library(hdf5r))
-
+suppressPackageStartupMessages(library(ggplot2))
 
 
 myFiles <- list.files(path=arguments$p, pattern="*.txt")
@@ -79,4 +79,21 @@ M.combined <- FindClusters(M.combined, resolution = arguments$r)
 message("saving the rds file for downstream analysis ...")
 saveRDS(M.combined, paste0(arguments$o, "_integrated.rds"))
 
+### --- batch corrected umap plot --- ###
+pdf("SeuratIntegration/Integrated-Batch_umap.pdf", width = 10.19, height = 7.61)
+DimPlot(M.combined, group.by = "DataSet") + ggtitle("Integrated UMAP Plot")
+dev.off()
+
+pdf("SeuratIntegration/Integrated-Clusters_umap.pdf", width = 8.5, height = 7.6)
+DimPlot(M.combined, group.by = "seurat_clusters", label = T) + NoLegend()
+dev.off()
+
+
+### --- findMarkers for each cluster --- ###
+DefaultAssay(M.combined) <- "integrated"
+M.markers <- FindAllMarkers(M.combined, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+write.table(M.markers, "SeuratIntegration/Integration_Markers.txt", col.names = T, sep = "\t", row.names = F, quote = F)
+
 sessionInfo()
+quit()
+
