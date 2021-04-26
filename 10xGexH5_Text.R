@@ -58,5 +58,8 @@ write_tsv(mymergeddata , file = "MergedFiles.txt", quote_escape = "none", col_na
 message("Merging completed ...")
 
 
-### --- usage  Rscript  .R  path_to_h5
+### --- usage Rscript 10x-.R --path "path to the h5 files"
+
+
+
 

@@ -1,5 +1,4 @@
 ### --- calcualte the contamination fraction and remove the ambient RNA from the 10x mtx --- ###
-# Create a text file to save all from console
 suppressPackageStartupMessages(library(optparse))
 require(optparse)
 options <- list(
@@ -49,9 +48,8 @@ mostZeroed = tail(sort((cntSoggy - cntStrained)/cntSoggy), n = 10)
 mostZeroed
 tail(sort(rowSums(sc$toc > out)/rowSums(sc$toc > 0)), n = 20)
 message("writting new mtx files to soupX-contamination-fraction-0.0453 folder ...")
-DropletUtils:::write10xCounts("./soupX-contamination-fraction-0.0453", out)
-
-
+DropletUtils:::write10xCounts(paste("./soupX-contamination-fraction_",fraction$percent, sep = ""), out)
+quit()
 
 
 
