@@ -32,14 +32,14 @@ useToEst = estimateNonExpressingCells(sc, nonExpressedGeneList = list(IG = ICGS)
 
 #####Calculating the contamination fraction#######
 message("estimating contamination from the soup channel ...")
-fraction <-capture.output(c_fraction = calculateContaminationFraction(sc, list(IG = ICGS), useToEst = useToEst), type = "message")
+fraction <-capture.output(c_fraction = calculateContaminationFraction(sc, list(IG = ICGS), useToEst = useToEst, forceAccept = TRUE), type = "message")
 fraction <- gsub(pattern = c("Estimated global contamination fraction of ", "%"),  replacement = "", x = fraction[1])
 print(paste("total percentage of conatmination estimetedd ", "is", fraction))
 fraction$percent <- gsub(pattern = "%", replacement = "", x = fraction)
 
 ### ---  Removing Contamination Now --- ###
 message("removing the contamination fraction ...")
-sc = setContaminationFraction(sc, as.numeric(fraction$percent)/100)
+sc = setContaminationFraction(sc, as.numeric(fraction$percent)/100 , forceAccept = TRUE)
 head(sc$soupProfile[order(sc$soupProfile$est, decreasing = TRUE), ], n = 20)
 out = adjustCounts(sc,roundToInt=TRUE)
 cntSoggy = rowSums(sc$toc > 0)

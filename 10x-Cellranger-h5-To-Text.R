@@ -1,4 +1,4 @@
-### --- Rscript takes the h5 files from gex H5 and return the text file for each and also the merged file --- ###
+### --- Rscript takes the h5 files from celranger and return the text file for each and also the merged file --- ###
 #!/usr/bin/env Rscript
 suppressPackageStartupMessages(library(optparse))
 require(optparse)
